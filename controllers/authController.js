@@ -10,18 +10,25 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // 1. Check required fields
+    // 1. Validate fields
     if (!name || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // 2. Check existing user
+    // 2. Password length validation
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    // 3. Check if email already exists
     const exists = await User.findOne({ email });
     if (exists) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    // 3. Create user
+    // 4. Create user
     const user = await User.create({
       name,
       email,
@@ -29,13 +36,13 @@ exports.register = async (req, res) => {
       role,
     });
 
-    // 4. Generate JWT
-    const token = generateToken(user);
+    // 5. Generate JWT
+    const token = generateToken(user._id);
 
-    // 5. Set cookie
+    // 6. Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // set true in production with HTTPS
+      secure: false,     // set TRUE when using HTTPS
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -49,9 +56,10 @@ exports.register = async (req, res) => {
         role: user.role,
       },
     });
+
   } catch (err) {
     console.log("Register Error:", err);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -62,27 +70,22 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Check required fields
     if (!email || !password) {
       return res.status(400).json({ message: "Provide email & password" });
     }
 
-    // 2. Check existing user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
 
-    // 3. Match password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
-    // 4. Generate JWT
-    const token = generateToken(user);
+    const token = generateToken(user._id);
 
-    // 5. Set cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
@@ -99,6 +102,7 @@ exports.login = async (req, res) => {
         role: user.role,
       },
     });
+
   } catch (err) {
     console.log("Login Error:", err);
     res.status(500).json({ message: "Server error" });
@@ -114,14 +118,13 @@ exports.logout = (req, res) => {
 };
 
 // ===========================
-// GET LOGGED IN USER PROFILE
+// GET PROFILE
 // ===========================
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-
-    res.json({ user });
+    return res.json({ user });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
