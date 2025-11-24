@@ -128,3 +128,12 @@ exports.getProfile = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+    res.json({ user });
+  } catch {
+    res.status(500).json({ message: "Server error" });
+  }
+};

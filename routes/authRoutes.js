@@ -11,5 +11,6 @@ router.post("/login", login);
 // PRIVATE
 router.get("/profile", protect, getProfile);
 router.post("/logout", logout);
+router.get("/user/:id", protect, getUserProfile);
 
 module.exports = router;
