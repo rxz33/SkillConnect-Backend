@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
 
   } catch (err) {
     console.log("Register Error:", err);
-    return res.status(500).json({ message: "Password must be at least 6 characters" });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
