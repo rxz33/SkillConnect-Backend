@@ -9,11 +9,16 @@ const path = require("path");
 const app = express();
 
 // enable CORS for frontend
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://skill-connect-frontend-blue.vercel.app"
+];
+
 app.use(cors({
-    origin: "*",     // allow all for now — we can restrict later
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true
+  origin: allowedOrigins,
+  credentials: true,
 }));
+
 
 // middlewares
 app.use(express.json());
