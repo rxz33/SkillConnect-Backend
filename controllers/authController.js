@@ -41,11 +41,14 @@ exports.register = async (req, res) => {
 
     // 6. Set cookie
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,     // set TRUE when using HTTPS
-      sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  domain: "skillconnect-backend-u3a9.onrender.com",   // ADD THIS LINE
+  path: "/",                                           // AND THIS
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
 
     return res.status(201).json({
       message: "Registration successful",
@@ -87,11 +90,14 @@ exports.login = async (req, res) => {
     const token = generateToken(user._id);
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  domain: "skillconnect-backend-u3a9.onrender.com",   // ADD THIS LINE
+  path: "/",                                           // AND THIS
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
 
     return res.json({
       message: "Login successful",
