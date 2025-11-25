@@ -20,8 +20,8 @@ app.use(cors({
   credentials: true,
 }));
 
-const earningsRoutes = require("./routes/earningsRoutes");
-app.use("/api/earnings", earningsRoutes);
+// const earningsRoutes = require("./routes/earningsRoutes");
+// app.use("/api/earnings", earningsRoutes);
 
 // middlewares
 app.use(express.json());
