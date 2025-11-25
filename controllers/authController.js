@@ -42,8 +42,8 @@ exports.register = async (req, res) => {
     // 6. Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,     // set TRUE when using HTTPS
-      sameSite: "lax",
+      secure: true,     // set TRUE when using HTTPS
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

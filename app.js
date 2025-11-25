@@ -20,13 +20,15 @@ app.use(cors({
   credentials: true,
 }));
 
-// const earningsRoutes = require("./routes/earningsRoutes");
-// app.use("/api/earnings", earningsRoutes);
-
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 
 // connect DB
 require("./config/db")();
