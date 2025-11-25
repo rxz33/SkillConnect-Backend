@@ -11,14 +11,28 @@ const app = express();
 // enable CORS for frontend
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://skill-connect-frontend-blue.vercel.app"
+  "https://skill-connect-frontend-blue.vercel.app",
+  "https://skill-connect-frontend-git-main-rashi-guptas-projects-70e2be20.vercel.app",
+  "https://skill-connect-frontend.vercel.app"
 ];
 
 app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+}));
+
+app.options("*", cors({
   origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
+
 
 // middlewares
 app.use(express.json());
