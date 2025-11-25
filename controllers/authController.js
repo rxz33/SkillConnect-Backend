@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  domain: "skillconnect-backend-u3a9.onrender.com",   // ADD THIS LINE
+  // domain: "skillconnect-backend-u3a9.onrender.com",   // ADD THIS LINE
   path: "/",                                           // AND THIS
   maxAge: 7 * 24 * 60 * 60 * 1000,
 });
@@ -93,7 +93,7 @@ exports.login = async (req, res) => {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  domain: "skillconnect-backend-u3a9.onrender.com",   // ADD THIS LINE
+  // domain: "skillconnect-backend-u3a9.onrender.com",   // ADD THIS LINE
   path: "/",                                           // AND THIS
   maxAge: 7 * 24 * 60 * 60 * 1000,
 });
